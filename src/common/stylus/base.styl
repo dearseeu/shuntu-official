@@ -1,0 +1,63 @@
+@import './variable'
+
+// 固定容器
+.base-container
+  width: 1200px;
+  margin: 0 auto;
+  padding: 50px 0;
+  // position: relative;
+
+// 背景色容器
+.bg-container
+  background: $content-background;
+
+// 垂直居中
+.vertical-center-container
+  display: flex;
+  flex-direction: column;
+  justify-content center;
+
+// 水平居中
+.align-center-container
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+// 图片根据父元素调整宽高
+img 
+  width 100%;
+  height auto;
+  vertical-align middle;
+
+// 卡片标题
+.card-title
+  margin: 10px 0;
+  font-size: $font-size-card-title;
+// 卡片文字
+.card-text
+  line-height: 1.5;
+  text-align: justify;
+  color: $black-text;
+
+// 副标题
+.sub-title 
+  margin-bottom: 50px;
+  text-align: center;
+
+  h3 
+    font-size: $font-size-sub-title;
+  .divider // 副标题分割线
+    width: 50px;
+    border-top:1px  solid #000;
+    height: 0;
+    margin: 20px auto;
+
+// banner 容器
+.banner
+  width: 100%;
+  // height: 570px;
+  position: relative;
+
+
+
+
