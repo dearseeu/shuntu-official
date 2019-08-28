@@ -10,19 +10,76 @@ export default new Router({
   routes: [
     { path: '/', redirect: '/home' },
     { path: '/home', name: 'home', component: Index },
-    { path: '/product', name: 'product', component: Product,
-      children:[
+    {
+      path: '/product.fill', name: 'fill', component: Product,
+      children: [
         {
-          path:'jbztsjk',
-          name:'jbztsjk',
-          component:Product
-        },{
-          path:'gjb',
-          name:'gjb',
-          component:Product
+          path: 'jbztsjk',
+          name: 'jbztsjk',
+          component: Product
+        }, {
+          path: 'gjb',
+          name: 'gjb',
+          component: Product
+        }, {
+          path: 'zdycj',
+          name: 'zdycj',
+          component: Product
         }
       ]
-  },
+    },
+    {
+      path: '/product.evaluation', name: 'evaluation', component: Product,
+      children: [
+        {
+          path: 'zypg',
+          name: 'zypg',
+          component: Product
+        }, {
+          path: 'yxpg',
+          name: 'yxpg',
+          component: Product
+        }, {
+          path: 'xkjs',
+          name: 'xkjs',
+          component: Product
+        }, {
+          path: 'sfzyrz',
+          name: 'sfzyrz',
+          component: Product
+        }, {
+          path: 'jxpj',
+          name: 'jxpj',
+          component: Product
+        }
+      ]
+    },
+    {
+      path: '/product.bigdata', name: 'bigdata', component: Product,
+      children: [
+        {
+          path: 'jsc',
+          name: 'jsc',
+          component: Product
+        }, {
+          path: 'sjcx',
+          name: 'sjcx',
+          component: Product
+        }, {
+          path: 'dpfx',
+          name: 'dpfx',
+          component: Product
+        }, {
+          path: 'sjjd',
+          name: 'sjjd',
+          component: Product
+        }, {
+          path: 'jshx',
+          name: 'jshx',
+          component: Product
+        }
+      ]
+    },
     { path: '/customer', name: 'customer', component: ModelClient },
     { path: '/about', name: 'about', component: AboutUs },
     { path: '/contactus', name: 'contactus', component: ContactUs },

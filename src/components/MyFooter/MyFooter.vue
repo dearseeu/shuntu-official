@@ -1,17 +1,13 @@
 <template>
   <div>
     <div
+      v-if="$route.name !== 'contactus'"
       class="footer-bg vertical-center-container"
       :style="{backgroundImage:'url(' + $api + msgList.footer_img+')'}"
     >
       <h3>教育事业数据统计分析平台</h3>
       <div>
-        <Button
-          v-if="$route.name !== 'contactus'"
-          size="large"
-          class="btn-l"
-          @click="toContactUs()"
-        >立即咨询</Button>
+        <Button size="large" class="btn-l" @click="toContactUs()">立即咨询</Button>
         <!-- <Button size="large" ghost>了解更多</Button> -->
       </div>
     </div>
@@ -22,7 +18,7 @@
           class="footer-menu-item"
           v-for="item in menuList"
           :key="item.id"
-          :to="'/' + item.code"
+          :to="item.code == 'product' ? '/' + item.childrens[0].code + '/' +  item.childrens[0].childrens[0].code : '/' + item.code"
         >{{item.name}}</router-link>
       </ul>
       <h5 class="footer-copyright">{{msgList.footer_content}} {{msgList.site_icp}} 顺途科技 版权所有</h5>
@@ -71,6 +67,7 @@ export default {
     color: $white-text;
     font-size: $font-size-title;
     text-align: center;
+    font-weight: bold;
   }
 
   div {

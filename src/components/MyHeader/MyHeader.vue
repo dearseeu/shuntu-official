@@ -36,7 +36,7 @@
                   <DropdownMenu slot="list" v-for="two in item.childrens" :key="two.id">
                     <h3 class="dropdown-title">{{two.name}}</h3>
                     <DropdownItem v-for="three in two.childrens" :key="three.id">
-                      <router-link :to="'/'+item.code + '/' + three.code">{{three.name}}</router-link>
+                      <router-link :to="'/'+two.code + '/' + three.code">{{three.name}}</router-link>
                     </DropdownItem>
                   </DropdownMenu>
                 </Dropdown>

@@ -5,13 +5,27 @@
       <img :src="$api +bannerList.picurl" v-if="bannerList.picurl" alt />
     </div>
     <!-- map -->
-    <div class="base-container">
+    <div style="position:relative">
       <div id="amap"></div>
-      <div>
-        <ul class="addr-detail">
-          <li>电话：{{msgList.site_tel}}</li>
-          <li>邮箱：{{msgList.site_email}}</li>
-          <li>地址：{{msgList.site_address}}</li>
+      <div class="addr-detail">
+        <h3 class="addr-title">{{msgList.site_name}}</h3>
+        <ul>
+          <li>
+            <Icon class="addr-icon" type="ios-phone-portrait" />
+            吴经理：{{msgList.site_mobile}}
+          </li>
+          <li>
+            <Icon class="addr-icon" type="ios-call" />
+            电话/传真：{{msgList.site_tel}}
+          </li>
+          <li>
+            <Icon class="addr-icon" type="ios-mail" />
+            邮箱：{{msgList.site_email}}
+          </li>
+          <li>
+            <Icon class="addr-icon" type="ios-pin" />
+            {{msgList.site_address}}
+          </li>
         </ul>
       </div>
     </div>
@@ -20,8 +34,12 @@
 
 <script>
 import { getContent, errorMsg } from "@api/getMsg";
+import { Icon } from "iview";
 
 export default {
+  components: {
+    Icon
+  },
   data: function() {
     return {
       bannerList: {},
@@ -33,11 +51,11 @@ export default {
     renderMap: function() {
       var map = new AMap.Map("amap", {
         resizeEnable: true,
-        center: [104.022862,30.624652],
-        zoom: 17
+        center: [104.023962, 30.624791],
+        zoom: 18
       });
       var marker = new AMap.Marker({
-        position: new AMap.LngLat(104.022862,30.624652),
+        position: new AMap.LngLat(104.022862, 30.624652),
         title: "成都顺途科技"
       });
       map.add(marker);
@@ -64,21 +82,48 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+@import '~@/common/stylus/variable.styl';
+
 #amap {
   width: 100%;
-  height: 300px;
-  border-radius: 5px;
+  height: 400px;
+}
+
+.addr-title {
+  font-size: $font-size-card-title;
+  font-weight: bold;
+  color: $blue-text;
+
+  &:after {
+    content: '';
+    display: block;
+    width: 40px;
+    border-top: 1px solid $black-text;
+    margin: 15px 0;
+  }
 }
 
 .addr-detail {
-  margin-top: 15px;
-  background: #F6F7F9;
-  height: 50px;
-  line-height: 50px;
-  display: flex;
-  justify-content: space-around;
+  background: $white-text;
   list-style: none;
   border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  right: 30%;
+  transform: translate(70%, -50%);
+  padding: 30px;
+
+  li {
+    padding: 10px 0;
+    color: $black-text;
+
+    .addr-icon {
+      color: $blue-text;
+      font-size: $font-size-product-name;
+      font-weight: bold;
+      padding-right: 20px;
+    }
+  }
 }
 </style>
 

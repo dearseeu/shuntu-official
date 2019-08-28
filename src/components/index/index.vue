@@ -10,124 +10,53 @@
         </CarouselItem>
       </Carousel>
     </div>
-    <!--带图卡片-->
-    <div class="base-container align-center-container">
-      <Card class="img-card" v-for="item in productFeatures" :key="item.id">
-        <div>
-          <div class="img-box">
-            <img v-if="item.picurl" :src="$api +item.picurl" />
+    <!--产品列表-->
+    <div class="base-container" v-for="one in menuList[1].childrens" :key="one.id">
+      <div class="divider-with-text">
+        <span class="divider-inner-text">{{one.name}}</span>
+      </div>
+      <div class="align-center-container">
+        <Card v-for="two in one.childrens" :key="two.id" class="our-product">
+          <div>
+            <h3 class="card-title">{{two.name}}</h3>
+            <img class="left-corner-img" src="~@/assets/pho_bq_01.png" alt />
+            <span class="left-corner-text">{{one.name}}</span>
+            <ul class="our-product-list">
+              <li v-for="(three,index) in two.info.split('^')" :key="index">{{three}}</li>
+            </ul>
+            <Button type="primary" ghost @click="gotoPage(one.code,two.code)">查看</Button>
           </div>
-          <h3 class="card-title">{{item.title}}</h3>
-          <p class="card-text">{{item.content}}</p>
-        </div>
-      </Card>
-    </div>
-    <!--了解我们的产品-->
-    <div class="bg-container vertical-center-container">
-      <div class="base-container">
-        <div class="sub-title">
-          <h3 class="card-title">{{productKnow.name}}</h3>
-          <div class="divider"></div>
-        </div>
-        <div class="align-center-container">
-          <Card class="our-product" v-for="item in productKnow.contents" :key="item.id">
-            <div>
-              <h3 class="card-title">{{item.title}}</h3>
-              <ul class="our-product-list">
-                <li v-for="(v,i) in item.content.split('^')" :key="i">{{v}}</li>
-              </ul>
-            </div>
-          </Card>
-        </div>
+        </Card>
       </div>
     </div>
-    <!--我们的优势在哪里-->
-    <!-- <div class="base-container vertical-center-container">
-      <div class="sub-title">
-        <h3 class="card-title">我们的优势在哪里</h3>
-        <div class="divider"></div>
-      </div>
-      <div>
-        <ul class="our-advantages">
-          <li>
-            <div class="our-advantages-left-item"></div>
-            <div class="our-advantages-right-item">
-              <h3 class="card-title">A high quality UI Toolkit</h3>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-            </div>
-          </li>
-          <li>
-            <div class="our-advantages-left-item"></div>
-            <div class="our-advantages-right-item">
-              <h3 class="card-title">A high quality UI Toolkit</h3>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-            </div>
-          </li>
-          <li>
-            <div class="our-advantages-left-item"></div>
-            <div class="our-advantages-right-item">
-              <h3 class="card-title">A high quality UI Toolkit</h3>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-            </div>
-          </li>
-          <li>
-            <div class="our-advantages-left-item"></div>
-            <div class="our-advantages-right-item">
-              <h3 class="card-title">A high quality UI Toolkit</h3>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-            </div>
-          </li>
-          <li>
-            <div class="our-advantages-left-item"></div>
-            <div class="our-advantages-right-item">
-              <h3 class="card-title">A high quality UI Toolkit</h3>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-            </div>
-          </li>
-          <li>
-            <div class="our-advantages-left-item"></div>
-            <div class="our-advantages-right-item">
-              <h3 class="card-title">A high quality UI Toolkit</h3>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>-->
     <!--我们的合作伙伴-->
     <div class="base-container vertical-center-container">
       <div class="sub-title">
         <h3 class="card-title">{{ourPaternal.name}}</h3>
         <div class="divider"></div>
       </div>
-      <img
-        v-for="(item,index) in ourPaternal.contents"
-        :src="$api + item.picurl"
-        :key="index"
-        alt
-      />
+      <img v-if="ourPaternal.contents" :src="$api + ourPaternal.contents[0].picurl" alt />
     </div>
   </div>
 </template>
 
 <script>
 import { getContent, errorMsg } from "@api/getMsg";
-import { Card, Carousel, CarouselItem } from "iview";
+import { Card, Carousel, CarouselItem, Button } from "iview";
 
 export default {
   data() {
     return {
       bannerList: [], //轮播图
-      productFeatures: {}, //产品特点介绍
-      productKnow: {}, //了解我们的产品
       ourPaternal: {} //我们的合作伙伴
     };
   },
-  props: ["homeId"],
+  props: ["homeId", "menuList"],
   components: {
     Card,
     Carousel,
-    CarouselItem
+    CarouselItem,
+    Button
   },
   methods: {
     _getContent(id) {
@@ -135,9 +64,7 @@ export default {
         .then(res => {
           if (res.statusText == "OK") {
             this.bannerList = res.data[0].contents;
-            this.productFeatures = res.data[1].contents;
-            this.productKnow = res.data[2];
-            this.ourPaternal = res.data[3];
+            this.ourPaternal = res.data[1];
           } else {
             this.$message.error(errorMsg);
           }
@@ -145,6 +72,9 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    gotoPage(path, name) {
+      this.$router.push("/" + path + "/" + name);
     }
   },
   mounted: function() {
@@ -156,38 +86,62 @@ export default {
 <style lang="stylus" scoped>
 @import '~@/common/stylus/variable.styl';
 
-.img-card {
-  width: 23%;
+.divider-with-text {
+  display: table;
+  white-space: nowrap;
+  text-align: center;
+  background: 0 0;
+  font-weight: bold;
+  margin: 16px 0;
 
-  div {
-    text-align: center;
+  .divider-inner-text {
+    display: inline-block;
+    padding: 0 24px;
+    font-size: $font-size-product-name;
+  }
 
-    .img-box {
-      width: 70%;
-      height: 220px;
-      line-height: 220px;
-      margin: 0 auto;
-    }
+  &:before, &:after {
+    content: '';
+    display: table-cell;
+    position: relative;
+    top: 50%;
+    width: 50%;
+    border-top: 1px solid $black-text;
+    transform: translateY(50%);
   }
 }
 
 .our-product {
-  width: 20%;
+  width: 30%;
+  position: relative;
+  padding-top: 50px;
+  margin: 50px 0;
+
+  .left-corner-img {
+    position: absolute;
+    left: -28px;
+    top: -22px;
+    width: 50%;
+  }
+
+  .left-corner-text {
+    color: $white-text;
+    left: 11px;
+    position: absolute;
+    transform: rotate(-45deg);
+    top: 35px;
+    font-size: 20px;
+  }
 
   div {
     text-align: center;
-
-    h3 {
-      color: $blue-text;
-      margin: 25px 0;
-    }
 
     .our-product-list {
       margin-bottom: 25px;
 
       li {
         cursor: default;
-        margin: 10px 0;
+        padding: 10px 0;
       }
     }
   }

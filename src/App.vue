@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <my-header :msgList="msgList" :menuList="menuList"></my-header>
-    <router-view :msgList="msgList" :homeId="homeId" v-if="homeId"></router-view>
+    <router-view :msgList="msgList" :menuList="menuList" :homeId="homeId" v-if="homeId && menuList"></router-view>
     <my-footer :msgList="msgList" :menuList="menuList"></my-footer>
     <BackTop></BackTop>
   </div>
@@ -24,7 +24,7 @@ export default {
     return {
       msgList: {},
       menuList: [],
-      homeId: "",
+      homeId: ""
     };
   },
   methods: {
@@ -39,10 +39,10 @@ export default {
         this.homeId = res.data[0].id;
         let obj = {};
         this.menuList.forEach(v => {
-          if (v.code == "product") {
+          if (v.hasChildren && v.childrens.length > 0) {
             let arr = [];
             v.childrens.forEach(two => {
-              if (two.childrens) {
+              if (two.hasChildren && two.childrens.length > 0) {
                 two.childrens.forEach(three => {
                   obj[three.code] = three.id;
                 });
@@ -52,12 +52,9 @@ export default {
             obj[v.code] = v.id;
           }
         });
+        // 存放 菜单id
         sessionStorage.setItem("ids", JSON.stringify(obj));
       });
-    },
-    getProductId(e) {
-      // console.log(e);
-      this.productId = e;
     }
   },
   created() {
