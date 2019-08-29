@@ -21,7 +21,7 @@
           :to="item.code == 'product' ? '/' + item.childrens[0].code + '/' +  item.childrens[0].childrens[0].code : '/' + item.code"
         >{{item.name}}</router-link>
       </ul>
-      <h5 class="footer-copyright">{{msgList.footer_content}} {{msgList.site_icp}} 顺途科技 版权所有</h5>
+      <h5 class="footer-copyright">{{msgList.footer_content}} {{msgList.site_icp}}</h5>
     </div>
   </div>
 </template>
@@ -77,33 +77,36 @@ export default {
 
 .btn-l {
   color: $blue-text;
-  margin-right: 10px;
+  width 160px;
+  height 48px;
+  // margin-right: 10px;
 }
 
 .footer-black {
   height: 160px;
-  background: #000;
+  background: $footer-background;
   text-align: center;
 
   .footer-menu {
     color: $gray-text;
     font-size: 100%;
 
+    // border-right : 1px solid $gray-text;
     .footer-menu-item {
       display: inline-block;
       border-left: 1px solid $gray-text;
       padding: 5px 50px;
       cursor: pointer;
-    }
 
-    :last-child {
-      border-right: 1px solid $gray-text;
+      &:last-child {
+        border-right: 1px solid $gray-text;
+      }
     }
   }
 
   .footer-copyright {
     color: $black-text;
-    font-size: $font-size-copyright;
+    // font-size: $font-size-copyright;
   }
 }
 

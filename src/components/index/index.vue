@@ -10,12 +10,17 @@
         </CarouselItem>
       </Carousel>
     </div>
+    <!--了解我们的产品-->
+    <div class="sub-title" style="margin-top:100px">
+      <h3>了解我们的产品</h3>
+      <div class="divider"></div>
+    </div>
     <!--产品列表-->
-    <div class="base-container" v-for="one in menuList[1].childrens" :key="one.id">
+    <div class="base-container-no-padding" v-for="one in menuList[1].childrens" :key="one.id">
       <div class="divider-with-text">
         <span class="divider-inner-text">{{one.name}}</span>
       </div>
-      <div class="align-center-container">
+      <div class="product-box">
         <Card v-for="two in one.childrens" :key="two.id" class="our-product">
           <div>
             <h3 class="card-title">{{two.name}}</h3>
@@ -24,7 +29,7 @@
             <ul class="our-product-list">
               <li v-for="(three,index) in two.info.split('^')" :key="index">{{three}}</li>
             </ul>
-            <Button type="primary" ghost @click="gotoPage(one.code,two.code)">查看</Button>
+            <Button class="to-page-btn" type="primary" ghost @click="gotoPage(one.code,two.code)">查看</Button>
           </div>
         </Card>
       </div>
@@ -32,7 +37,7 @@
     <!--我们的合作伙伴-->
     <div class="base-container vertical-center-container">
       <div class="sub-title">
-        <h3 class="card-title">{{ourPaternal.name}}</h3>
+        <h3>{{ourPaternal.name}}</h3>
         <div class="divider"></div>
       </div>
       <img v-if="ourPaternal.contents" :src="$api + ourPaternal.contents[0].picurl" alt />
@@ -86,6 +91,11 @@ export default {
 <style lang="stylus" scoped>
 @import '~@/common/stylus/variable.styl';
 
+.base-container-no-padding{
+  width 1200px
+  margin 0 auto;
+}
+
 .divider-with-text {
   display: table;
   white-space: nowrap;
@@ -111,37 +121,54 @@ export default {
   }
 }
 
+.product-box{
+  display flex;
+  justify-content center;
+  flex-wrap wrap;
+}
+
 .our-product {
-  width: 30%;
+  width: 26%;
   position: relative;
-  padding-top: 50px;
-  margin: 50px 0;
+  padding: 50px 0 20px;
+  margin: 30px;
 
   .left-corner-img {
     position: absolute;
-    left: -28px;
-    top: -22px;
+    left: -23px;
+    top: -18px;
     width: 50%;
   }
 
   .left-corner-text {
     color: $white-text;
-    left: 11px;
+    left: -33px;
     position: absolute;
     transform: rotate(-45deg);
-    top: 35px;
-    font-size: 20px;
+    top: 30px;
+    display: inline-block;
+    width: 50%;
   }
 
   div {
     text-align: center;
 
     .our-product-list {
-      margin-bottom: 25px;
+      // margin-bottom: 25px;
+      height: 180px;
 
       li {
         cursor: default;
         padding: 10px 0;
+      }
+    }
+
+    .to-page-btn {
+      width: 50%;
+
+      &:hover {
+        background: $blue-text;
+        color: $white-text;
       }
     }
   }

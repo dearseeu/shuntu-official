@@ -12,7 +12,7 @@
       </div>
       <div v-if="costomers.picurl">
         <!-- <p style="text-align:center">{{item.content}}</p> -->
-        <img :src="$api + costomers.picurl" alt />
+        <img v-if="costomers.picurl" :src="$api + costomers.picurl" alt />
       </div>
     </div>
     <!-- 更多客户 -->
@@ -23,11 +23,11 @@
         <p style="text-align:center">{{moreCostomers.info}}</p>
       </div>
       <!-- 教育厅 -->
-      <div v-if="moreCostomers.contents[0].picurl">
+      <div v-if="moreCostomers.contents">
         <img :src="$api + moreCostomers.contents[0].picurl" alt />
       </div>
       <!-- 大学 -->
-      <div>
+      <div v-if="moreCostomers.contents">
         <Divider />
         <div class="collages-list">
           <h3 class="collages-list-title">{{moreCostomers.contents[1].title}}</h3>

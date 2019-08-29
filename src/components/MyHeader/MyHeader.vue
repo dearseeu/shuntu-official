@@ -1,5 +1,5 @@
 <template>
-  <div style="height:93px;">
+  <div style="height:88px;">
     <div class="my-header">
       <div class="bg-container company-msg">
         <div class="base-container header-box">
@@ -35,9 +35,13 @@
                   </a>
                   <DropdownMenu slot="list" v-for="two in item.childrens" :key="two.id">
                     <h3 class="dropdown-title">{{two.name}}</h3>
-                    <DropdownItem v-for="three in two.childrens" :key="three.id">
-                      <router-link :to="'/'+two.code + '/' + three.code">{{three.name}}</router-link>
-                    </DropdownItem>
+                    <router-link
+                      v-for="three in two.childrens"
+                      :key="three.id"
+                      :to="'/'+two.code + '/' + three.code"
+                    >
+                      <DropdownItem><span>{{three.name}}</span></DropdownItem>
+                    </router-link>
                   </DropdownMenu>
                 </Dropdown>
                 <router-link class="tab-item" tag="div" v-else :to="{name:item.code}">
@@ -48,6 +52,8 @@
           </div>
         </div>
       </Menu>
+
+      <div class="header-shadow"></div>
     </div>
   </div>
 </template>
@@ -74,6 +80,11 @@ export default {
       type: Array
     }
   },
+  methods: {
+    gotoPage(path, name) {
+      this.$router.push("/" + path + "/" + name);
+    }
+  },
   created() {},
   mounted() {}
 };
@@ -88,19 +99,31 @@ export default {
   top: 0;
 }
 
+.header-shadow {
+  height: 10px;
+  background: linear-gradient(bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1));
+}
+
 .company-msg {
   overflow: hidden;
-  padding: 7px;
+  padding: 5px;
 
   .header-box {
     display: flex;
     justify-content: space-between;
-  }
+    color: $black-text;
 
-  .left-msg {
-    li {
-      display: inline-block;
-      margin-right: 20px;
+    .right-msg {
+      font-size: $font-size-copyright;
+      // background: red;
+    }
+
+    .left-msg {
+      li {
+        display: inline-block;
+        margin-right: 20px;
+        font-size: $font-size-copyright;
+      }
     }
   }
 }
@@ -162,14 +185,18 @@ export default {
 
   .ivu-dropdown-menu {
     text-align: center;
+    padding: 0 50px 15px;
 
     .dropdown-title {
       font-weight: bold;
     }
 
-    .ivu-dropdown-item {
-      .router-link-active {
-        color: $blue-text;
+    .router-link-active {
+      color: $blue-text;
+
+      .ivu-dropdown-item {
+        color: inherit;
+        font-size: 16px;
       }
     }
   }

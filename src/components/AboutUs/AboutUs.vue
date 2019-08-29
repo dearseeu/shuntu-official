@@ -10,8 +10,8 @@
         <h3>{{aboutST.title}}</h3>
         <div class="divider"></div>
       </div>
-      <div>
-        <img v-if="aboutST.picurl" :src="$api + aboutST.picurl" alt />
+      <div v-if="aboutST.content">
+        <img :src="$api + aboutST.picurl" alt />
         <p class="stkj-msg" v-for="(item,index) in aboutST.content.split('^')" :key="index">
           <span class="stkj-name">{{item.slice(0,10)}}</span>
           {{item.slice(10)}}
@@ -42,18 +42,17 @@
         <h3>{{mainAdvantage.name}}</h3>
         <div class="divider"></div>
       </div>
-      <h3 class="ability-title">{{mainAdvantage.contents[0].title}}：</h3>
+      <h3 v-if="mainAdvantage.contents" class="ability-title">{{mainAdvantage.contents[0].title}}：</h3>
       <div class="main-advantage align-center-container">
         <div class="main-advantage-left">
-          <!-- <p>{{mainAdvantage.contents[0].content}}</p> -->
-          <ul>
+          <ul v-if="mainAdvantage.contents">
             <li
               v-for="(item,index) in mainAdvantage.contents[0].content.split('^')"
               :key="index"
             >{{item}}</li>
           </ul>
         </div>
-        <div class="main-advantage-right">
+        <div v-if="mainAdvantage.contents" class="main-advantage-right">
           <img :src="$api + mainAdvantage.contents[0].picurl" alt />
         </div>
       </div>
