@@ -21,7 +21,7 @@
           :to="item.code == 'product' ? '/' + item.childrens[0].code + '/' +  item.childrens[0].childrens[0].code : '/' + item.code"
         >{{item.name}}</router-link>
       </ul>
-      <h5 class="footer-copyright">{{msgList.footer_content}} {{msgList.site_icp}}</h5>
+      <h5 class="footer-copyright">{{msgList.footer_content}}</h5>
     </div>
   </div>
 </template>
