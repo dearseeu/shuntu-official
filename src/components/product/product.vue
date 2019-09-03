@@ -15,32 +15,36 @@
           :name="item.code"
         >
           <!-- 基本状态数据库 -->
-          <div class="base-container" v-if="productMsg">
+          <div class="product-box" v-if="productMsg">
             <div class="sub-title">
               <h3>{{productMsg.title}}</h3>
               <div class="divider"></div>
             </div>
-            <div>
+            <div class="product-msg">
               <img v-if="productMsg.picurl" :src="$api +productMsg.picurl" alt />
             </div>
-            <Divider />
-            <ul class="product-msg" v-if="productMsg.content">
-              <li
-                v-for="(item,index) in productMsg.content.split('^')"
-                :key="index"
-                class="card-text"
-              >{{item}}</li>
-            </ul>
           </div>
           <!-- 产品截图 -->
-          <div class="bg-container" v-if="productCut">
-            <div class="base-container">
+          <div class="product-box" v-if="productCut">
+            <div>
               <div class="sub-title">
                 <h3>{{productCut.title}}</h3>
                 <div class="divider"></div>
               </div>
-              <div>
+              <div class="product-msg">
                 <img v-if="productCut.picurl" :src="$api +productCut.picurl" alt />
+              </div>
+            </div>
+          </div>
+          <!-- 如果有第四项 -->
+          <div class="bg-container product-box" v-if="productMore">
+            <div>
+              <div v-if="productMore.title" class="sub-title">
+                <h3>{{productMore.title}}</h3>
+                <div class="divider"></div>
+              </div>
+              <div class="product-msg">
+                <img v-if="productMore.picurl" :src="$api +productMore.picurl" alt />
               </div>
             </div>
           </div>
@@ -66,6 +70,7 @@ export default {
       bannerList: {},
       productMsg: {},
       productCut: {},
+      productMore: {},
       ids: JSON.parse(sessionStorage.getItem("ids")),
       tabList: [],
       activeTabName: this.$route.name
@@ -77,9 +82,13 @@ export default {
       getContent(id)
         .then(res => {
           if (res.statusText == "OK") {
+            this.bannerList = {},this.productMsg = {},this.productCut = {},this.productMore = {};
             this.bannerList = res.data[0].contents[0];
             this.productMsg = res.data[1].contents[0];
             this.productCut = res.data[2].contents[0];
+            if(res.data.length == 4){
+              this.productMore = res.data[3].contents[0];
+            }
           } else {
             this.$message.error(errorMsg);
           }
@@ -132,17 +141,25 @@ export default {
   margin-left: -50px;
 }
 
-.product-msg {
-  text-align: center;
+.product-box{
+  padding 50px 0
+}
 
-  li {
-    background: url('~@/assets/pho_bh.png') 0 20px no-repeat;
-    display: inline-block;
-    width: 33%;
-    line-height: 1.5;
-    padding: 20px 33px;
-    vertical-align: top;
+.product-msg {
+  // text-align: center;
+  display flex;
+  justify-content center;
+  img{
+    width auto;
   }
+//   li {
+//     background: url('~@/assets/pho_bh.png') 0 20px no-repeat;
+//     display: inline-block;
+//     width: 33%;
+//     line-height: 1.5;
+//     padding: 20px 33px;
+//     vertical-align: top;
+//   }
 }
 
 >>>.ivu-tabs-nav-scroll {

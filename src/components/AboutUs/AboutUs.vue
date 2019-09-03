@@ -13,8 +13,8 @@
       <div v-if="aboutST.content">
         <img :src="$api + aboutST.picurl" alt />
         <p class="stkj-msg" v-for="(item,index) in aboutST.content.split('^')" :key="index">
-          <span class="stkj-name">{{item.slice(0,10)}}</span>
-          {{item.slice(10)}}
+          <span class="stkj-name">{{item.slice(0,13)}}</span>
+          {{item.slice(13)}}
         </p>
       </div>
     </div>
