@@ -77,6 +77,14 @@ export default new Router({
           path: 'jshx',
           name: 'jshx',
           component: Product
+        }, {
+          path: 'bksdsj',
+          name: 'bksdsj',
+          component: Product
+        }, {
+          path: 'yjsdsj',
+          name: 'yjsdsj',
+          component: Product
         }
       ]
     },

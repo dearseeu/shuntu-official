@@ -1,25 +1,58 @@
 <template>
   <div>
-    <div
-      v-if="$route.name !== 'contactus'"
-      class="footer-bg vertical-center-container"
-      :style="{backgroundImage:'url(' + $api + msgList.footer_img+')'}"
-    >
-      <h3>教育事业数据统计分析平台</h3>
-      <div>
-        <Button size="large" class="btn-l" @click="toContactUs()">立即咨询</Button>
-        <!-- <Button size="large" ghost>了解更多</Button> -->
+    <div v-if="$route.name !== 'contactus'" class="footer">
+      <div class="base-container footer-box">
+        <div class="addr-detail">
+          <h3 class="addr-title">{{msgList.site_name}}</h3>
+          <ul>
+            <li v-if="msgList.site_mobile">
+              <Icon class="addr-icon" type="ios-phone-portrait" />
+              吴经理：{{msgList.site_mobile}}
+            </li>
+            <li v-if="msgList.site_tel">
+              <Icon class="addr-icon" type="ios-call" />
+              电话/传真：{{msgList.site_tel}}
+            </li>
+            <li>
+              <Icon class="addr-icon" type="ios-mail" />
+              邮箱：{{msgList.site_email}}
+            </li>
+            <li>
+              <Icon class="addr-icon" type="ios-pin" />
+              {{msgList.site_address}}
+            </li>
+          </ul>
+        </div>
+        <div class="align-center-container" v-if="menuList.length > 0">
+          <div class="product-list" v-for="one in menuList[1].childrens.slice(0,3)" :key="one.id">
+            <h3 class="list-title">{{one.name}}</h3>
+            <ul class="product-ul">
+              <li
+                v-for="two in one.childrens"
+                :key="two.id"
+                @click="gotoPage(one.code,two.code)"
+              >{{two.name}}</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
     <div class="footer-black vertical-center-container">
       <ul class="footer-menu base-container">
-        <router-link
+        <!-- <router-link
           tag="li"
           class="footer-menu-item"
           v-for="item in menuList"
           :key="item.id"
           :to="item.code == 'product' ? '/' + item.childrens[0].code + '/' +  item.childrens[0].childrens[0].code : '/' + item.code"
-        >{{item.name}}</router-link>
+        >{{item.name}}</router-link>-->
+        <li class="footer-menu-item" v-for="item in menuList" :key="item.id">
+          <a :href="item.url" target="_blank" v-if="item.code == 'friendlinks'">{{item.name}}</a>
+          <router-link
+            v-else
+            :to="item.code == 'product' ? '/' + item.childrens[0].code + '/' +  item.childrens[0].childrens[0].code : '/' + item.code"
+          >{{item.name}}</router-link>
+        </li>
       </ul>
       <h5 class="footer-copyright">{{msgList.footer_content}}</h5>
     </div>
@@ -27,16 +60,17 @@
 </template>
 
 <script>
-import { Button } from "iview";
+import { Icon } from "iview";
 
 export default {
   name: "MyFooter",
   components: {
-    Button
+    Icon
   },
   data() {
     return {
       showBtn: true
+      // one:[]
     };
   },
   props: {
@@ -48,8 +82,8 @@ export default {
     }
   },
   methods: {
-    toContactUs() {
-      this.$router.push("/contactus");
+    gotoPage(path, name) {
+      this.$router.push("/" + path + "/" + name);
     }
   },
   created() {}
@@ -59,54 +93,103 @@ export default {
 <style lang="stylus" scoped>
 @import '~@/common/stylus/variable.styl';
 
-.footer-bg {
-  height: 400px;
+.footer {
+  color: $footer-text;
+  background: $footer-background;
 
-  h3 {
-    margin-bottom: 40px;
-    color: $white-text;
-    font-size: $font-size-title;
-    text-align: center;
-    font-weight: bold;
-  }
-
-  div {
-    text-align: center;
+  .footer-box {
+    display: flex;
+    padding: 50px 0 20px;
+    justify-content: center;
+    // border-bottom: 1px solid;
   }
 }
 
-.btn-l {
-  color: $blue-text;
-  width 160px;
-  height 48px;
-  // margin-right: 10px;
+.addr-title {
+  font-size: $font-size-card-title;
+  font-weight: bold;
+  color: $white-text;
+
+  &:after {
+    content: '';
+    display: block;
+    width: 40px;
+    border-top: 1px solid $footer-text;
+    margin: 15px 0;
+  }
+}
+
+.addr-detail {
+  color: $footer-text;
+  list-style: none;
+  padding: 0 30px;
+  border-right: 1px solid;
+
+  li {
+    padding: 10px 0;
+    color: $footer-text;
+
+    .addr-icon {
+      color: $footer-text;
+      font-size: $font-size-product-name;
+      padding-right: 20px;
+    }
+  }
+}
+
+.product-list {
+  padding: 0 50px;
+
+  .list-title {
+    color: $white-text;
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  li {
+    margin: 15px 0;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+
+    &:hover {
+      color: #fff;
+    }
+  }
 }
 
 .footer-black {
   height: 160px;
   background: $footer-background;
   text-align: center;
+  color: $footer-text;
+  border-top: 1px solid;
 
   .footer-menu {
-    color: $gray-text;
+    // color: $gray-text;
     font-size: 100%;
 
-    // border-right : 1px solid $gray-text;
     .footer-menu-item {
       display: inline-block;
-      border-left: 1px solid $gray-text;
+      border-left: 1px solid;
       padding: 5px 50px;
       cursor: pointer;
 
+      a {
+        transition: color 0.3s ease-in-out;
+
+        &:hover {
+          color: #fff;
+        }
+      }
+
       &:last-child {
-        border-right: 1px solid $gray-text;
+        border-right: 1px solid;
       }
     }
   }
 
   .footer-copyright {
     color: $black-text;
-    // font-size: $font-size-copyright;
   }
 }
 

@@ -10,26 +10,29 @@
         </CarouselItem>
       </Carousel>
     </div>
-    <!--了解我们的产品-->
-    <div class="sub-title" style="margin-top:100px">
+    <!--产品列表-->
+    <!-- 大标题 -->
+    <div style="margin-top:60px" class="sub-title">
       <h3>了解我们的产品</h3>
       <div class="divider"></div>
     </div>
-    <!--产品列表-->
+    <!-- 所有产品 -->
     <div class="base-container-no-padding" v-for="one in menuList[1].childrens" :key="one.id">
+      <!-- 带线标题 -->
       <div class="divider-with-text">
         <span class="divider-inner-text">{{one.name}}</span>
       </div>
-      <div class="product-box">
-        <Card v-for="two in one.childrens" :key="two.id" class="our-product">
-          <div>
-            <h3 class="card-title">{{two.name}}</h3>
-            <img class="left-corner-img" src="~@/assets/pho_bq_01.png" alt />
-            <span class="left-corner-text">{{one.name}}</span>
-            <ul class="our-product-list">
-              <li v-for="(three,index) in two.info.split('^')" :key="index">{{three}}</li>
-            </ul>
-            <Button class="to-page-btn" type="primary" ghost @click="gotoPage(one.code,two.code)">查看</Button>
+      <!-- 卡片 -->
+      <div class="flex-start-box">
+        <Card class="product-card" v-for="two in one.childrens" :key="two.id" @click.native="gotoPage(one.code,two.code)">
+          <div class="box">
+            <div class="box-icon" v-if="two.icon">
+              <img :src="$api + two.icon" alt />
+            </div>
+            <div class="box-content">
+              <h3 class="card-title">{{two.name}}</h3>
+              <p class="card-text">{{two.info}}</p>
+            </div>
           </div>
         </Card>
       </div>
@@ -53,7 +56,8 @@ export default {
   data() {
     return {
       bannerList: [], //轮播图
-      ourPaternal: {} //我们的合作伙伴
+      ourPaternal: {}, //我们的合作伙伴
+      active: ""
     };
   },
   props: ["homeId", "menuList"],
@@ -80,6 +84,12 @@ export default {
     },
     gotoPage(path, name) {
       this.$router.push("/" + path + "/" + name);
+    },
+    addClass() {
+      this.active = "card-title active";
+    },
+    removeClass() {
+      this.active = "card-title";
     }
   },
   mounted: function() {
@@ -91,9 +101,9 @@ export default {
 <style lang="stylus" scoped>
 @import '~@/common/stylus/variable.styl';
 
-.base-container-no-padding{
-  width 1200px
-  margin 0 auto;
+.base-container-no-padding {
+  width: 1200px;
+  margin: 60px auto;
 }
 
 .divider-with-text {
@@ -102,7 +112,7 @@ export default {
   text-align: center;
   background: 0 0;
   font-weight: bold;
-  margin: 16px 0;
+  margin: 60px 0;
 
   .divider-inner-text {
     display: inline-block;
@@ -121,10 +131,38 @@ export default {
   }
 }
 
-.product-box{
-  display flex;
-  justify-content center;
-  flex-wrap wrap;
+.flex-start-box {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.product-card {
+  width: 380px;
+  margin: 10px;
+  cursor pointer
+
+  .box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .box-icon {
+      width: 20%;
+    }
+
+    .box-content {
+      padding-left: 15px;
+      width: 80%;
+      height: 100%;
+
+      .card-title.active {
+        color: $blue-text;
+      }
+    }
+  }
+
+  padding: 0 10px;
 }
 
 .our-product {
@@ -154,7 +192,6 @@ export default {
     text-align: center;
 
     .our-product-list {
-      // margin-bottom: 25px;
       height: 180px;
 
       li {

@@ -6,7 +6,7 @@
           <ul class="left-msg">
             <li>
               <Icon type="ios-call" />
-              {{msgList.site_tel}}
+              {{msgList.site_mobile}}
             </li>
             <li>
               <Icon type="ios-mail" />
@@ -27,7 +27,7 @@
           </div>
           <div class="nav">
             <div class="tab">
-              <div v-for="item in menuList" :key="item.id">
+              <div v-for="item in menuList.slice(0,menuList.length - 1)" :key="item.id">
                 <Dropdown v-if="item.hasChildren && item.childrens.length > 0">
                   <a href="javascript:void(0)" style="padding:0 20px">
                     {{item.name}}
@@ -40,7 +40,9 @@
                       :key="three.id"
                       :to="'/'+two.code + '/' + three.code"
                     >
-                      <DropdownItem><span>{{three.name}}</span></DropdownItem>
+                      <DropdownItem>
+                        <span>{{three.name}}</span>
+                      </DropdownItem>
                     </router-link>
                   </DropdownMenu>
                 </Dropdown>
