@@ -60,7 +60,7 @@ export default {
       active: ""
     };
   },
-  props: ["homeId", "menuList"],
+  props: ["menuList"],
   components: {
     Card,
     Carousel,
@@ -93,7 +93,9 @@ export default {
     }
   },
   mounted: function() {
-    this._getContent(this.homeId);
+    // this._getContent(this.homeId);
+    console.log(this.menuList)
+    this._getContent(this.menuList[0].id);
   }
 };
 </script>

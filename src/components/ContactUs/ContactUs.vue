@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div style="height:calc(100% - 200px)">
     <!-- contact us -->
     <div class="contact-us" v-if="bannerList">
       <img :src="$api +bannerList.picurl" v-if="bannerList.picurl" alt />
     </div>
     <!-- map -->
-    <div style="position:relative">
+    <div style="position:relative;height:100%">
       <div id="amap"></div>
       <div class="addr-detail">
         <h3 class="addr-title">{{msgList.site_name}}</h3>
@@ -56,7 +56,7 @@ export default {
       });
       var marker = new AMap.Marker({
         position: new AMap.LngLat(104.022862, 30.624652),
-        title: "四川思迈特智数软件有限公司"
+        title: this.msgList.site_name
       });
       map.add(marker);
     },
@@ -86,7 +86,7 @@ export default {
 
 #amap {
   width: 100%;
-  height: 800px;
+  height: 100%;
 }
 
 .addr-title {

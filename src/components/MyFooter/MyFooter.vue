@@ -54,7 +54,7 @@
           >{{item.name}}</router-link>
         </li>
       </ul>
-      <h5 class="footer-copyright">{{msgList.footer_content}}</h5>
+      <h5 class="footer-copyright">{{msgList.footer_content}} 备案号：<a target="_blank" href="https://www.beian.miit.gov.cn">{{msgList.site_icp}}</a></h5>
     </div>
   </div>
 </template>
@@ -70,7 +70,6 @@ export default {
   data() {
     return {
       showBtn: true
-      // one:[]
     };
   },
   props: {

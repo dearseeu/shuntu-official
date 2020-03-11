@@ -1,11 +1,37 @@
 // import Vue from 'vue'
 import Router from 'vue-router'
-import Index from './components/index/index'
-import Product from './components/product/product'
-import ModelClient from './components/ModelClient/ModelClient'
-import AboutUs from './components/AboutUs/AboutUs'
-import ContactUs from './components/ContactUs/ContactUs'
+// import Index from './components/index/index'
+// import Product from './components/product/product'
+// import ModelClient from './components/ModelClient/ModelClient'
+// import AboutUs from './components/AboutUs/AboutUs'
+// import ContactUs from './components/ContactUs/ContactUs'
 // 8bcd1aa91aef455b81c785a5d8e8d0af
+const Index = resolve =>{
+  import('@/components/index/index').then(module=>{
+      resolve(module);
+  })
+};
+const Product = resolve =>{
+  import('@/components/product/product').then(module=>{
+      resolve(module);
+  })
+};
+const ModelClient = resolve =>{
+  import('@/components/ModelClient/ModelClient').then(module=>{
+      resolve(module);
+  })
+};
+const AboutUs = resolve =>{
+  import('@/components/AboutUs/AboutUs').then(module=>{
+      resolve(module);
+  })
+};
+const ContactUs = resolve =>{
+  import('@/components/ContactUs/ContactUs').then(module=>{
+      resolve(module);
+  })
+};
+
 export default new Router({
   routes: [
     { path: '/', redirect: '/home' },
